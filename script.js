@@ -13,6 +13,8 @@ const solutionArray = [2,2,2,2,2,2,2,2];
 
 var myScore = 0;
 qCount = 0;
+var showResText = document.getElementById("showresult");
+
 
 function printResult(){
     var resultStr = "You have finished the test. Your score is = " + myScore;
@@ -45,9 +47,11 @@ function getNext1(){
     if(qCount != 0) {
         if (solutionArray[qCount] === 0) { 
             myScore++;
+            showResText.innerHTML = "Correct";
         }
         else {
             secondsLeft = secondsLeft - 5;
+            showResText.innerHTML = "Wrong";
         }
     }
     updateText();
@@ -58,9 +62,11 @@ function getNext2(){
     if(qCount != 0) {
         if (solutionArray[qCount] === 1) { 
             myScore++;
+            showResText.innerHTML = "Correct";
         }
         else {
             secondsLeft = secondsLeft - 5;
+            showResText.innerHTML = "Wrong";
         }
     }
     updateText();
@@ -71,9 +77,11 @@ function getNext3(){
     if(qCount != 0) {
         if (solutionArray[qCount] === 2) { 
             myScore++;
+            showResText.innerHTML = "Correct";
         }
         else {
             secondsLeft = secondsLeft - 5;
+            showResText.innerHTML = "Wrong";
         }
     }
     updateText();
@@ -84,9 +92,11 @@ function getNext4(){
     if(qCount != 0) {
         if (solutionArray[qCount] === 3) { 
             myScore++;
+            showResText.innerHTML = "Correct";
         } 
         else {
             secondsLeft = secondsLeft - 5;
+            showResText.innerHTML = "Wrong";
         }
     }
     updateText();
