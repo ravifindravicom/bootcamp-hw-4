@@ -13,19 +13,28 @@ const solutionArray = [2,2,2,2,2,2,2,2];
 
 var myScore = 0;
 qCount = 0;
+var secondsLeft = 30;
 var showResText = document.getElementById("showresult");
+var timeEl = document.querySelector(".time");
 
 
 function printResult(){
     var resultStr = "You have finished the test. Your score is = " + myScore;
+   
+
     var topText = document.getElementById("toptext");
     topText.innerHTML = resultStr;
+
+    var getInitials = `<h3> Please enter your initials</h3>
+    <textarea id="initials" name="init-name" rows="1" cols="5"> RG </textarea>`;
+     var getInitials = `<h3> Please enter your initials</h3>
+    <textarea id="initials" name="init-name" rows="1" cols="5"> RG </textarea>`;
+    document.querySelector('.getinit').innerHTML = getInitials;
 }
 
 function updateText(){
     if (qCount < 8)
     {
-    console.log("enter update with qcount = " + qCount);
     var questionText = document.getElementById("question");
     var firstAns = document.getElementById("ans1");
     var secondAns = document.getElementById("ans2");
@@ -38,12 +47,12 @@ function updateText(){
     fourthAns.textContent = answersArray[qCount][3];
     }
     else {
-        printResult();
+       printResult();
     }   
 }
 
-
 function getNext1(){
+    if(qCount===0) {setTime();};
     if(qCount != 0) {
         if (solutionArray[qCount] === 0) { 
             myScore++;
@@ -59,6 +68,7 @@ function getNext1(){
 }
 
 function getNext2(){
+    if(qCount===0) {setTime();};
     if(qCount != 0) {
         if (solutionArray[qCount] === 1) { 
             myScore++;
@@ -74,21 +84,24 @@ function getNext2(){
 }
 
 function getNext3(){
+    if(qCount===0) {setTime();};
     if(qCount != 0) {
         if (solutionArray[qCount] === 2) { 
             myScore++;
+            console.log("myScore = "+myScore);
             showResText.innerHTML = "Correct";
         }
         else {
             secondsLeft = secondsLeft - 5;
             showResText.innerHTML = "Wrong";
         }
-    }
+    }else { }
     updateText();
     qCount++;
 }
 
 function getNext4(){
+    if(qCount===0) {setTime();};
     if(qCount != 0) {
         if (solutionArray[qCount] === 3) { 
             myScore++;
@@ -103,11 +116,6 @@ function getNext4(){
     qCount++;
 }
 
-
-
-
-var timeEl = document.querySelector(".time");
-
 function setTime() {
   var timerInterval = setInterval(function() {
     secondsLeft--;
@@ -115,11 +123,12 @@ function setTime() {
 
     if(secondsLeft < 0) {
       clearInterval(timerInterval);
+      timeEl.textContent = "";
       printResult();
     }
 
   }, 1000);
 }
 
-var secondsLeft = 30;
-setTime();
+
+
