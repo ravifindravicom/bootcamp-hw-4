@@ -8,23 +8,29 @@
     <title>JavaScript Quiz</title>
     
 </head>
+  <!-- HTML for a quiz on JS Operators. Please see README for known errors and opportunities for code refactoring. -->
 <body> 
     <div class="topnav">
         <a href="./index.html">Run Test</a>
-        <a href="./results.html">Results</a>
         <span class="time"> </span>
     </div>
-    
+  
     <div id = toptext>
-        <h1 id="question">CODING QUIZ CHALLENGE</h1>
-        <button id="ans1" type="button" onclick="getNext1()">START QUIZ</button>
-        <button id="ans2" type="button" onclick="getNext2()">START QUIZ</button>
-        <button id="ans3" type="button" onclick="getNext3()">START QUIZ</button>
-        <button id="ans4" type="button" onclick="getNext4()">START QUIZ</button>
+        <h1 id="question">JS Operator QUIZ CHALLENGE</h1>
+        <button id="ans1" type="button" onclick="getNext1()">START</button>
+        <button id="ans2" type="button" onclick="getNext2()">COMIENZO</button>
+        <button id="ans3" type="button" onclick="getNext3()">शुरू</button>
+        <button id="ans4" type="button" onclick="getNext4()">தொடங்கு</button>
         <hr>
         <p id = "showresult"></p>
     </div>
-    <div id = "getinit"></div>
+    <div id = "getinit">
+        <div id = "scoreslist"></div>
+        <div id = "buttons"></div>
+    </div>
+    <div id = "show-scores"></div>
+    
+
     <script src="./script.js"></script>
 </body>
 </html>

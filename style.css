@@ -1,3 +1,5 @@
+/* For this homework I focussed on the logic and new JavaScript techniques, so chose not to use Bootstrap. The code should be refactored to make it prettier. */
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -24,4 +26,22 @@ span {
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+}
+
+label,
+textarea {
+    font-size: .8rem;
+    letter-spacing: 1px;
+}
+textarea {
+    padding: 10px;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
 }

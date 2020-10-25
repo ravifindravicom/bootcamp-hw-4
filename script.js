@@ -1,17 +1,22 @@
-const questionsArray = ["Question 1", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6", "Question 7", "Question 8"];
+/* JavaScript for a quiz on JS Operators. Please see README for known errors and opportunities for code refactoring. */
+
+/* These questions should be in a database somewhere, but for now I am using constants. */
+const questionsArray = ["Addition Operator is?", "Subtraction Operator is?", "Multiplication Operator is?", "Division Operator is", "Modulus Operator is?", "Exponentiation Operator is?", "Increment Operator is?", "Decrement Operator is?"];
 const answersArray = [
-    ["Answer 1A", "Answer 1B", "Answer 1C", "Answer 1D"],
-    ["Answer 2A", "Answer 2B", "Answer 2C", "Answer 2D"],
-    ["Answer 3A", "Answer 3B", "Answer 3C", "Answer 3D"],
-    ["Answer 4A", "Answer 4B", "Answer 4C", "Answer 4D"],
-    ["Answer 5A", "Answer 5B", "Answer 5C", "Answer 5D"],
-    ["Answer 6A", "Answer 6B", "Answer 6C", "Answer 6D"],
-    ["Answer 7A", "Answer 7B", "Answer 7C", "Answer 7D"],
-    ["Answer 8A", "Answer 8B", "Answer 8C", "Answer 8D"],
+    ["*", "-", "+", "/"],
+    ["+", "*", "-", "/"],
+    ["+", "-", "*", "/"],
+    ["+", "-", "/", "*"],
+    ["**", "++", "%", "--"],
+    ["%", "++", "**", "--"],
+    ["**", "%", "++", "--"],
+    ["**", "++", "--", "%"]
 ];
+/* The same database should indicate which solution is correct. For now I use the solutionArray below. */
 const solutionArray = [2,2,2,2,2,2,2,2];
 
-var scoresObj = {scoresStr : ""};
+var numScores = 0;
+var scoresObj = {scoresStr : []};
 localStorage.setItem('scoresObj', JSON.stringify(scoresObj));
 
 var myScore = 0;
@@ -19,42 +24,58 @@ qCount = 0;
 var secondsLeft = 30;
 var showResText = document.getElementById("showresult");
 var timeEl = document.querySelector(".time");
-var highScoresList;
-var highScoresNum = 0;
 
+var injectResultsText = `<h1>  Results </h1> <div id = "rs"> </div>
+    <button type="button" onclick="getScores()">GetScores</button>
+    <button type="button" onclick="clearScores()">ClearScores</button>`;
+var injectInitialCapture = `<textarea id="myTextarea"></textarea>
+    <button type="button" onclick="writeToLS()">Submit</button>`;
+
+/* This is called after a run of the quiz is done. */
 function printResult(){
     timeEl.textContent = "";
-    var resultStr = "You have finished the test. Your score is = " + myScore;
+    var resultStr = "You have finished the test. Your score is = " + myScore + `<br> <h3> Enter Initials: </h3>`
     var topText = document.getElementById("toptext");
     topText.innerHTML = resultStr;
-    injectInitialCapture = `<textarea id="myTextarea"></textarea>
-        <button type="button" onclick="writeToLS()">Submit</button>`;
     var getinitDiv = document.getElementById("getinit");
     getinitDiv.innerHTML = injectInitialCapture;
 }
+
+/* This writes the persistent object. */
 function writeToLS() {
-    scoresObj  = JSON.parse(localStorage.getItem('scoresObj'));
-    str = document.getElementById("myTextarea").value;
-    scoresObj.scoresStr = scoresObj.scoresStr + "|" + str + " : " + myScore;
+    var scoresObj  = JSON.parse(localStorage.getItem('scoresObj'));
+    var str = document.getElementById("myTextarea").value;
+    scoresObj.scoresStr[numScores] =  "|" + str + " : " + myScore + "|";
     localStorage.setItem('scoresObj', JSON.stringify(scoresObj));
-    console.log("The score results I am writing are: " + scoresObj.scoresStr)
-
-  }
-
-function getScores() {
-    scoresObj  = JSON.parse(localStorage.getItem('scoresObj'));
-    var showDiv = document.getElementById("show-scores");
-    console.log("The score results I am reading are" + scoresObj.scoresStr);
-    showDiv.innerHTML = scoresObj.scoresStr;
-  }
-
-function clearScores(){
-    localStorage.clear();
+    numScores++;
+    showResultsPage();
 }
 
+/* This displays the result of the quiz and asks for initials. */
+function showResultsPage(){
+    var getinitDiv = document.getElementById("getinit");
+    getinitDiv.innerHTML = "";
+ 
+    var getShowScoresDiv = document.getElementById("toptext");
+    getShowScoresDiv.innerHTML = injectResultsText;
+}
 
+/* This is used to get the scores. */
+function getScores() {
+    scoresObj  = JSON.parse(localStorage.getItem('scoresObj'));
+    var showDiv = document.getElementById("rs");
+    showDiv.innerHTML = scoresObj.scoresStr;
+}
 
+/* This is used to clear the scores. */
+function clearScores(){
+    numScores=0;
+    localStorage.clear();
+    var showDiv = document.getElementById("rs");
+    showDiv.innerHTML = "";
+}
 
+/* This is used to show next set of questions if any. */
 function updateText(){
     if (qCount < 8)
     {
@@ -74,6 +95,7 @@ function updateText(){
     }   
 }
 
+/* The following four functions can be refactored into one function. I ran out of time. */
 function getNext1(){
     if(qCount===0) {setTime();};
     if(qCount != 0) {
@@ -111,7 +133,6 @@ function getNext3(){
     if(qCount != 0) {
         if (solutionArray[qCount] === 2) { 
             myScore++;
-            console.log("myScore = "+myScore);
             showResText.innerHTML = "Correct";
         }
         else {
@@ -131,7 +152,7 @@ function getNext4(){
             showResText.innerHTML = "Correct";
         } 
         else {
-            secondsLeft = secondsLeft - 5;
+            secondsLeft = secondsLeft - 5; /* Reducing time for wrong Ans. */
             showResText.innerHTML = "Wrong";
         }
     }
@@ -139,6 +160,7 @@ function getNext4(){
     qCount++;
 }
 
+/* This is the timer. */
 function setTime() {
   var timerInterval = setInterval(function() {
     secondsLeft--;
