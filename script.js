@@ -11,26 +11,49 @@ const answersArray = [
 ];
 const solutionArray = [2,2,2,2,2,2,2,2];
 
+var scoresObj = {scoresStr : ""};
+localStorage.setItem('scoresObj', JSON.stringify(scoresObj));
+
 var myScore = 0;
 qCount = 0;
 var secondsLeft = 30;
 var showResText = document.getElementById("showresult");
 var timeEl = document.querySelector(".time");
-
+var highScoresList;
+var highScoresNum = 0;
 
 function printResult(){
+    timeEl.textContent = "";
     var resultStr = "You have finished the test. Your score is = " + myScore;
-   
-
     var topText = document.getElementById("toptext");
     topText.innerHTML = resultStr;
-
-    var getInitials = `<h3> Please enter your initials</h3>
-    <textarea id="initials" name="init-name" rows="1" cols="5"> RG </textarea>`;
-     var getInitials = `<h3> Please enter your initials</h3>
-    <textarea id="initials" name="init-name" rows="1" cols="5"> RG </textarea>`;
-    document.querySelector('.getinit').innerHTML = getInitials;
+    injectInitialCapture = `<textarea id="myTextarea"></textarea>
+        <button type="button" onclick="writeToLS()">Submit</button>`;
+    var getinitDiv = document.getElementById("getinit");
+    getinitDiv.innerHTML = injectInitialCapture;
 }
+function writeToLS() {
+    scoresObj  = JSON.parse(localStorage.getItem('scoresObj'));
+    str = document.getElementById("myTextarea").value;
+    scoresObj.scoresStr = scoresObj.scoresStr + "|" + str + " : " + myScore;
+    localStorage.setItem('scoresObj', JSON.stringify(scoresObj));
+    console.log("The score results I am writing are: " + scoresObj.scoresStr)
+
+  }
+
+function getScores() {
+    scoresObj  = JSON.parse(localStorage.getItem('scoresObj'));
+    var showDiv = document.getElementById("show-scores");
+    console.log("The score results I am reading are" + scoresObj.scoresStr);
+    showDiv.innerHTML = scoresObj.scoresStr;
+  }
+
+function clearScores(){
+    localStorage.clear();
+}
+
+
+
 
 function updateText(){
     if (qCount < 8)
@@ -119,16 +142,19 @@ function getNext4(){
 function setTime() {
   var timerInterval = setInterval(function() {
     secondsLeft--;
-    timeEl.textContent = "Time Left: " + secondsLeft;
-
+    if(qCount<8) {
+        timeEl.textContent = "Time Left: " + secondsLeft;
+    }
     if(secondsLeft < 0) {
       clearInterval(timerInterval);
       timeEl.textContent = "";
       printResult();
     }
-
   }, 1000);
 }
+
+
+
 
 
 
